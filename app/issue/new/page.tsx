@@ -16,12 +16,17 @@ const NewIssuePage = () => {
   const router = useRouter();
   const { register, handleSubmit, control } = useForm<Inputs>();
   const [error, setError] = useState("");
+  const [submit, setSubmit] = useState(false);
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
+      setSubmit(true);
       await axios.post("/api/issues", data);
       router.push("/issue");
+      setSubmit(false);
     } catch {
       setError("An Unexpected Error Occured");
+    } finally {
+      setSubmit(false);
     }
   };
 
@@ -48,7 +53,12 @@ const NewIssuePage = () => {
             <SimpleMDE placeholder='Description' {...field} />
           )}
         />
-        <Button>Submit</Button>
+        <Button>
+          <div className={`${submit ? "block" : "hidden"}`}>
+            <div className='border-t-transparent animate-spin rounded-full border-white-400 border-2 h-4 w-4'></div>
+          </div>
+          Submit
+        </Button>
       </form>
     </div>
   );

@@ -1,14 +1,12 @@
-import prisma from "@/prisma/client";
 import { Table } from "@radix-ui/themes";
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 import BadgeComponent from "../components/Badge";
 import IssueActions from "../components/IssueActions";
-import delay from "delay";
-import Link from "next/link";
-
-const Issue = async () => {
-  const issues = await prisma.issue.findMany();
-  await delay(1000);
-
+const IssuesLoading = () => {
+  // dummy issues for skeleton loading
+  const issues = [1, 2, 3, 4];
   return (
     <div className='max-w-4xl'>
       <IssueActions />
@@ -20,7 +18,7 @@ const Issue = async () => {
               Status
             </Table.ColumnHeaderCell>
             <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Created At
+              Description
             </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
@@ -29,16 +27,16 @@ const Issue = async () => {
             return (
               <Table.Row key={issue.id}>
                 <Table.Cell>
-                  <Link href={`/issue/${issue.id}`}>{issue.title}</Link>
+                  <Skeleton />
                   <div className='md:hidden'>
-                    <BadgeComponent status={issue.status} />
+                    <Skeleton />
                   </div>
                 </Table.Cell>
                 <Table.Cell className='hidden md:table-cell'>
-                  <BadgeComponent status={issue.status} />
+                  <Skeleton />
                 </Table.Cell>
                 <Table.Cell className='hidden md:block'>
-                  {issue.createdAt.toDateString()}
+                  <Skeleton />
                 </Table.Cell>
               </Table.Row>
             );
@@ -49,4 +47,4 @@ const Issue = async () => {
   );
 };
 
-export default Issue;
+export default IssuesLoading;
