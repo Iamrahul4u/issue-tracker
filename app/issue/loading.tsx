@@ -2,10 +2,8 @@ import { Table } from "@radix-ui/themes";
 import React from "react";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
-import BadgeComponent from "../components/Badge";
 import IssueActions from "../components/IssueActions";
 const IssuesLoading = () => {
-  // dummy issues for skeleton loading
   const issues = [1, 2, 3, 4];
   return (
     <div className='max-w-4xl'>
@@ -25,7 +23,7 @@ const IssuesLoading = () => {
         <Table.Body>
           {issues.map((issue) => {
             return (
-              <Table.Row key={issue.id}>
+              <Table.Row key={issue}>
                 <Table.Cell>
                   <Skeleton />
                   <div className='md:hidden'>

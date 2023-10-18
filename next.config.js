@@ -1,4 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {}
+module.exports = {
+  webpack: (config, { dev }) => {
+    // Add custom webpack configuration here
+    // For example, you can customize loaders, plugins, etc.
 
-module.exports = nextConfig
+    return config;
+  },
+};
