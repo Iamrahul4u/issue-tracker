@@ -1,26 +1,26 @@
-"use client"
-import { AlertDialog, Button, Flex } from "@radix-ui/themes"
-import axios from "axios"
-import { useRouter } from "next/navigation"
-import { use, useState } from "react"
-import LoadingSpinner from "../../_components/LoadingSpinner"
-import Link from "next/link"
-import { Island_Moments } from "next/font/google"
+"use client";
+import { AlertDialog, Button, Flex } from "@radix-ui/themes";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { use, useState } from "react";
+import LoadingSpinner from "../../_components/LoadingSpinner";
+import Link from "next/link";
+import { Island_Moments } from "next/font/google";
 
-const OnDelete = async ({ id }: { id: string }) => {
-  const router = useRouter()
-  const [error, setError] = useState(true)
-  const [isLoading, setLoading] = useState(false)
+const OnDelete = ({ id }: { id: string }) => {
+  const router = useRouter();
+  const [error, setError] = useState(true);
+  const [isLoading, setLoading] = useState(false);
   async function deleteIssue() {
     try {
-      setLoading(true)
-      await axios.delete(`/api/issues/${id}`)
-      router.push("/issue")
-      router.refresh()
+      setLoading(true);
+      await axios.delete(`/api/issues/${id}`);
+      router.push("/issue");
+      router.refresh();
     } catch (error: any) {
-      setError(error.message)
+      setError(error.message);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -52,7 +52,7 @@ const OnDelete = async ({ id }: { id: string }) => {
         </Flex>
       </AlertDialog.Content>
     </AlertDialog.Root>
-  )
-}
+  );
+};
 
-export default OnDelete
+export default OnDelete;

@@ -11,6 +11,7 @@ import LoadingSpinner from "../_components/LoadingSpinner"
 import EditButton from "./edit/EditButton"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/app/auth/providerOptions"
+import AssignUserSelect from "../_components/AssignUserSelect"
 
 interface Prop {
   params: { id: string }
@@ -37,6 +38,7 @@ const IssueDetails = async ({ params }: Prop) => {
       <Box>
         {session && (
           <Flex direction={"column"} gap={"2"} mt='5'>
+            <AssignUserSelect />
             <EditButton issueId={issue.id} />
             <OnDelete id={issue.id} />
           </Flex>

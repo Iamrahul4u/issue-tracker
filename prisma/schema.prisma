@@ -11,12 +11,14 @@ datasource db {
 }
 
 model issue {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  title       String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  status      Status   @default(OPEN)
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  title            String
+  description      String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  status           Status   @default(OPEN)
+  assignedToUserId String?  @db.ObjectId
+  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
 }
 
 enum Status {
@@ -60,6 +62,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  assignedIssue issue[]
 }
 
 model VerificationToken {
