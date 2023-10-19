@@ -9,6 +9,8 @@ import onDelete from "./edit/DeleteIssue"
 import OnDelete from "./edit/DeleteIssue"
 import LoadingSpinner from "../_components/LoadingSpinner"
 import EditButton from "./edit/EditButton"
+import { getServerSession } from "next-auth"
+import { authOptions } from "@/app/auth/providerOptions"
 
 interface Prop {
   params: { id: string }
@@ -19,6 +21,7 @@ const IssueDetails = async ({ params }: Prop) => {
     where: { id: params.id },
   })
   if (!issue) notFound()
+  const session = await getServerSession(authOptions)
   return (
     <Grid columns={{ initial: "1", md: "5" }} gap={"4"}>
       <Box className='col-span-3'>
@@ -32,10 +35,12 @@ const IssueDetails = async ({ params }: Prop) => {
         </Card>
       </Box>
       <Box>
-        <Flex direction={"column"} gap={"2"} mt='5'>
-          <EditButton issueId={issue.id} />
-          <OnDelete id={issue.id} />
-        </Flex>
+        {session && (
+          <Flex direction={"column"} gap={"2"} mt='5'>
+            <EditButton issueId={issue.id} />
+            <OnDelete id={issue.id} />
+          </Flex>
+        )}
       </Box>
     </Grid>
   )
