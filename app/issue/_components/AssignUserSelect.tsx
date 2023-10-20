@@ -18,17 +18,20 @@ const AssignUserSelect = ({ issue }: { issue: issue }) => {
     return <SkeletonTemp />;
   }
   if (error) return null;
+  async function assignUser(userId: string) {
+    try {
+      await axios.patch("/api/issues/" + issue.id, {
+        assignedToUserId: userId,
+      });
+    } catch {
+      toast.error("Changes Could Not Be Saved");
+    }
+  }
   return (
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => {
-          axios
-            .patch("/api/issues/" + issue.id, {
-              assignedToUserId: userId || null,
-            })
-            .catch(() => toast.error("Changes Could Not Be Saved"));
-        }}
+        onValueChange={(userId) => assignUser(userId)}
       >
         <Select.Trigger placeholder='Select User..' />
         <Select.Content position='popper'>

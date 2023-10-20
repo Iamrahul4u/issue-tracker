@@ -1,11 +1,24 @@
-import prisma from "@/prisma/client"
-import { Table } from "@radix-ui/themes"
-import BadgeComponent from "../components/Badge"
-import IssueActions from "../components/IssueActions"
-import Link from "../components/Link"
+import prisma from "@/prisma/client";
+import { Table } from "@radix-ui/themes";
+import BadgeComponent from "../components/Badge";
+import IssueActions from "./list/IssueActions";
+import Link from "../components/Link";
+import { Status } from "@prisma/client";
 
-const Issue = async () => {
-  const issues = await prisma.issue.findMany()
+const Issue = async ({
+  searchParams,
+}: {
+  searchParams: { status: Status };
+}) => {
+  const statuses = Object.values(Status);
+  const status = statuses.includes(searchParams.status)
+    ? searchParams.status
+    : undefined;
+  const issues = await prisma.issue.findMany({
+    where: {
+      status,
+    },
+  });
 
   return (
     <div className='max-w-4xl'>
@@ -39,12 +52,12 @@ const Issue = async () => {
                   {issue.createdAt.toDateString()}
                 </Table.Cell>
               </Table.Row>
-            )
+            );
           })}
         </Table.Body>
       </Table.Root>
     </div>
-  )
-}
-export const dynamic = "force-dynamic"
-export default Issue
+  );
+};
+export const dynamic = "force-dynamic";
+export default Issue;
