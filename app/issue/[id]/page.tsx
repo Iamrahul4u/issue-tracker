@@ -47,4 +47,8 @@ const IssueDetails = async ({ params }: Prop) => {
     </Grid>
   );
 };
+export const metadata: Metadata = {
+  title: "Issue Tracker",
+  description: "View Issue",
+};
 export default IssueDetails;

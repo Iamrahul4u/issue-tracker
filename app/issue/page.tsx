@@ -6,7 +6,7 @@ import Link from "../components/Link";
 import { Status, issue } from "@prisma/client";
 import ToggleHeader from "./_components/ToggleHeader";
 import PaginationFilter from "./_components/PaginationFilter";
-
+import { Metadata } from "next";
 const Issue = async ({
   searchParams,
 }: {
@@ -72,6 +72,11 @@ const Issue = async ({
       />
     </div>
   );
+};
+
+export const metadata: Metadata = {
+  title: "Issue Tracker",
+  description: "List of Issues",
 };
 export const dynamic = "force-dynamic";
 export default Issue;
