@@ -2,16 +2,14 @@ import BadgeComponent from "@/app/components/Badge";
 import prisma from "@/prisma/client";
 import { Box, Button, Flex, Grid, Heading } from "@radix-ui/themes";
 import { Card } from "@radix-ui/themes";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import Markdown from "react-markdown";
-import onDelete from "./edit/DeleteIssue";
 import OnDelete from "./edit/DeleteIssue";
-import LoadingSpinner from "../_components/LoadingSpinner";
 import EditButton from "./edit/EditButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/providerOptions";
 import AssignUserSelect from "../_components/AssignUserSelect";
+import { Metadata } from "next";
 
 interface Prop {
   params: { id: string };
@@ -47,8 +45,5 @@ const IssueDetails = async ({ params }: Prop) => {
     </Grid>
   );
 };
-export const metadata: Metadata = {
-  title: "Issue Tracker",
-  description: "View Issue",
-};
+
 export default IssueDetails;
