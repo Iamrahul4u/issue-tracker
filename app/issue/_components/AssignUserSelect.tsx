@@ -18,7 +18,7 @@ const AssignUserSelect = ({ issue }: { issue: issue }) => {
     return <SkeletonTemp />;
   }
   if (error) return null;
-  async function assignUser(userId: string) {
+  async function assignUser(userId: string | undefined) {
     try {
       await axios.patch("/api/issues/" + issue.id, {
         assignedToUserId: userId,
@@ -31,11 +31,13 @@ const AssignUserSelect = ({ issue }: { issue: issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || ""}
-        onValueChange={(userId) => assignUser(userId)}
+        onValueChange={(userId) =>
+          assignUser(userId !== " " ? userId : undefined)
+        }
       >
         <Select.Trigger placeholder='Select User..' />
         <Select.Content position='popper'>
-          <Select.Item>Unassigned</Select.Item>
+          <Select.Item value=' '>Unassigned</Select.Item>
           <Select.Group>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
