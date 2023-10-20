@@ -3,38 +3,47 @@ import { Table } from "@radix-ui/themes";
 import BadgeComponent from "../components/Badge";
 import IssueActions from "./list/IssueActions";
 import Link from "../components/Link";
-import { Status } from "@prisma/client";
+import { Status, issue } from "@prisma/client";
+import ToggleHeader from "./_components/ToggleHeader";
+import PaginationFilter from "./_components/PaginationFilter";
 
 const Issue = async ({
   searchParams,
 }: {
-  searchParams: { status: Status };
+  searchParams: {
+    status: Status;
+    orderBy: keyof issue;
+    sort: string;
+    page: string;
+  };
 }) => {
   const statuses = Object.values(Status);
   const status = statuses.includes(searchParams.status)
     ? searchParams.status
     : undefined;
+
+  const pageSize = 10;
+  const page = parseInt(searchParams.page) || 1;
   const issues = await prisma.issue.findMany({
     where: {
       status,
     },
+    orderBy: {
+      [searchParams.orderBy]: searchParams.sort,
+    },
+    skip: (page - 1) * pageSize,
+    take: pageSize,
   });
-
+  const issueCount = await prisma.issue.count({
+    where: {
+      status,
+    },
+  });
   return (
     <div className='max-w-4xl'>
       <IssueActions />
-      <Table.Root className='mt-5' variant='surface'>
-        <Table.Header>
-          <Table.Row>
-            <Table.ColumnHeaderCell>Issue</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Status
-            </Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className='hidden md:table-cell'>
-              Created At
-            </Table.ColumnHeaderCell>
-          </Table.Row>
-        </Table.Header>
+      <Table.Root variant='surface'>
+        <ToggleHeader searchParams={searchParams} />
         <Table.Body>
           {issues.map((issue) => {
             return (
@@ -56,6 +65,11 @@ const Issue = async ({
           })}
         </Table.Body>
       </Table.Root>
+      <PaginationFilter
+        totalItems={issueCount}
+        pageSize={pageSize}
+        pageNumber={page}
+      />
     </div>
   );
 };
