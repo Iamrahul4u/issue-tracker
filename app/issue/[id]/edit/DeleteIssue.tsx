@@ -27,7 +27,7 @@ const OnDelete = ({ id }: { id: string }) => {
   return (
     <AlertDialog.Root>
       <AlertDialog.Trigger>
-        <Button color='red'>
+        <Button color='red' className='bg-red-600'>
           <LoadingSpinner visible={isLoading} />
           {isLoading ? "Deleting..." : "Delete Issue"}
         </Button>
