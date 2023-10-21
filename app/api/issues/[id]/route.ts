@@ -1,12 +1,13 @@
 import { PatchIssueSchema } from "@/app/ValidationSchema";
 import { authOptions } from "@/app/auth/providerOptions";
 import prisma from "@/prisma/client";
+import { Status } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } },
+  { params }: { params: { id: string; status?: Status } },
 ) {
   // const session = await getServerSession(authOptions);
   // if (!session) return NextResponse.json({}, { status: 401 });
@@ -19,13 +20,13 @@ export async function PATCH(
     where: { id: params.id },
   });
 
-  const { title, description, assignedToUserId } = body;
+  const { title, description, assignedToUserId, status } = body;
   if (assignedToUserId) {
     const user = await prisma.user.findUnique({
       where: { id: assignedToUserId },
     });
     if (!user) {
-      NextResponse.json("User Not Found", { status: 401 });
+      return NextResponse.json("User Not Found", { status: 401 });
     }
   }
 
@@ -40,6 +41,7 @@ export async function PATCH(
       title,
       description,
       assignedToUserId,
+      status,
     },
   });
   return NextResponse.json(updatedIssue);

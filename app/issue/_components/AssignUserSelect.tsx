@@ -38,7 +38,7 @@ const AssignUserSelect = ({ issue }: { issue: issue }) => {
         <Select.Trigger placeholder='Select User..' />
         <Select.Content position='popper'>
           <Select.Item value=' '>Unassigned</Select.Item>
-          <Select.Group>
+          <Select.Group className='z-10'>
             {users?.map((user) => (
               <Select.Item key={user.id} value={user.id}>
                 {user.name}

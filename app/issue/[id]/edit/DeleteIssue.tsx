@@ -45,7 +45,12 @@ const OnDelete = ({ id }: { id: string }) => {
             </Button>
           </AlertDialog.Cancel>
           <AlertDialog.Action>
-            <Button variant='solid' color='red' onClick={() => deleteIssue()}>
+            <Button
+              variant='solid'
+              color='red'
+              className='bg-red-600 text-white'
+              onClick={() => deleteIssue()}
+            >
               Delete
             </Button>
           </AlertDialog.Action>

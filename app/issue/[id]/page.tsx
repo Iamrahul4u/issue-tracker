@@ -10,6 +10,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/providerOptions";
 import AssignUserSelect from "../_components/AssignUserSelect";
 import { Metadata } from "next";
+import SelectStatus from "../_components/SelectStatus";
 
 interface Prop {
   params: { id: string };
@@ -36,6 +37,7 @@ const IssueDetails = async ({ params }: Prop) => {
       <Box>
         {session && (
           <Flex direction={"column"} gap={"2"} mt='5'>
+            <SelectStatus issue={issue} />
             <AssignUserSelect issue={issue} />
             <EditButton issueId={issue.id} />
             <OnDelete id={issue.id} />
